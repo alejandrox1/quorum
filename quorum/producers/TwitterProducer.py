@@ -9,6 +9,7 @@ from quorum.producers.SeleniumProducer import SeleniumProducers
 from quorum.utils.file_utils import create_dir
 from quorum.utils.kafka_utils import (produce_iterator, terminate_producer, 
                                       signal_msg, produce_element, generate_topic)
+from tqdm import tqdm
 
 
 class TwitterProducer(SeleniumProducers):
@@ -121,7 +122,7 @@ class TwitterProducer(SeleniumProducers):
     def ids_to_tweets(self, consumeTopic, produceTopic):
         consumer = KafkaConsumer(consumeTopic, auto_offset_reset='earliest',
                                  enable_auto_commit=False)  
-        for msg in consumer:
+        for msg in tqdm(consumer):
             if msg.value.decode('utf-8')==signal_msg:
                 break
             try:

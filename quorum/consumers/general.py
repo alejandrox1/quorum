@@ -1,8 +1,23 @@
+import datetime
 import collections
 import urllib.request
+from urllib.parse import urlparse
+import spacy
 
 
-def get_url_domain(url):
+### DATETIME
+def date_flag(dateTime):                                                        
+    today = datetime.datetime.today()                                           
+    yesterday = today - datetime.timedelta(days=1)                              
+    if dateTime.date()==today.date():                                           
+        return 'today'                                                          
+    elif dateTime.date()==yesterday.date():                                     
+        return 'yesterday'                                                      
+    else:                                                                       
+        return 'old'
+
+### URLS
+def get_url_mainsite(url):
     """ Get the domain for a url.
     
         Example:
@@ -13,6 +28,15 @@ def get_url_domain(url):
     return response.url.split('/')[2]
 
 
+def get_url_domain(url):                                                        
+    pieces = urlparse(url).hostname.split('.')                                  
+                                                                                
+    if pieces[0]!='www':                                                        
+        return pieces[0]                                                        
+    else:                                                                       
+        return pieces[1]
+
+### GENERAL PROCESSING
 def list_of_dicts_to_dict(dictionary):                                          
     new_dict = {}                                                               
     key_name = 'entities'                                                       
@@ -33,3 +57,23 @@ def flatten_dict(d, parent_key='', sep='__'):
         else:                                                                   
             items.append((new_key, v))                                          
     return dict(items)
+
+
+### BASIC NLP
+def twitter_word_test(word):                                                    
+    skip_words = ['RT','#','amp']                                               
+    skip_starts = ['#', '@']                                                    
+    if word in skip_words:                                                      
+        return False                                                            
+    if any([word.startswith(t) for t in skip_starts]):                          
+        return False                                                            
+    return True
+
+def get_nouns(tweet_text):                                                      
+    nlp = spacy.load('en')
+    nouns = []                                                                  
+    doc = nlp(tweet_text)                                                       
+    for word in doc:                                                            
+        if word.tag_ in ['NNP','NN'] and twitter_word_test(word.text):          
+            nouns.append(word.text)                                             
+    return nouns

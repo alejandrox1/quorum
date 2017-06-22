@@ -4,6 +4,10 @@ from nltk.probability import FreqDist
 from nltk.tokenize import TweetTokenizer
 from quorum.consumers.general import get_url_domain, list_of_dicts_to_dict   
 
+#### DATETIME
+def tweet_datetime(date):                                                       
+    informat = '%a %b %d %H:%M:%S %z %Y'                                        
+    return datetime.datetime.strptime(date, informat)
 
 def convert_tweet_date(jsonTweet):
     """ Convert the datetime format of a tweet. 
@@ -15,6 +19,7 @@ def convert_tweet_date(jsonTweet):
     return date.strftime(outformat)
 
 
+### URLS
 def get_tweet_urls(jsonTweet, unshorten=True):
     urls = []
     for url in jsonTweet['entities']['urls']:
@@ -22,12 +27,13 @@ def get_tweet_urls(jsonTweet, unshorten=True):
             url = get_url_domain(url)
         urls.append(url['expanded_url'])
 
-
+### STATISTICS
 def Tweet_freq_dist(tweet):
     tokenizer =  TweetTokenizer()
     return FreqDist(tokenizer.tokenize(tweet)) 
 
 
+### GENERAL PROCESSING
 def flatten_tweet(d, parent_key='', sep='__'):                                   
     items = []                                                                  
     for k, v in d.items():                                                      
@@ -40,3 +46,5 @@ def flatten_tweet(d, parent_key='', sep='__'):
         else:                                                                   
             items.append((new_key, v))                                          
     return dict(items)
+
+### BASIC NLP

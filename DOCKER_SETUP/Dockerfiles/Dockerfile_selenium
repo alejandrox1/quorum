@@ -1,4 +1,4 @@
-FROM ubuntu_miniconda
+FROM alejandrox1/ubuntu_miniconda
 MAINTAINER Jorge Alarcon Ochoa
 
 
