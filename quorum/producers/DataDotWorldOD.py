@@ -70,6 +70,10 @@ class DataDotWorldOD(SeleniumProducers):
                 checkpoints = json.load(f)
         main_page = checkpoints.get(str(catalog), catalog) 
         log_file = open(path+'/log_file.txt', 'w')
+        checkpoint_filename = path+'/checkpoints_file.txt'
+        checkpoint_file, checkpoints = self.restart_crawl(checkpoint_filename)
+        if checkpoints:
+            checkpoints[str(catalog)] = str(checkpoints[-1])
 
         while self.counter <= self.max_datasets or self.max_datasets<0:
             try:
@@ -102,10 +106,11 @@ class DataDotWorldOD(SeleniumProducers):
                 traceback.print_tb(e.__traceback__)
                 sleep(60*5)
                 break
-
+        
         with open('checkpoint.json', 'w') as f: 
             json.dump(last_id, f)
         log_file.close()
+        checkpoint_file.close()
         return path
    
     
