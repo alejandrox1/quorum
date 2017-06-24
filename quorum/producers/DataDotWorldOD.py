@@ -66,7 +66,7 @@ class DataDotWorldOD(SeleniumProducers):
         # lgo and checkpoint files
         checkpoints = {}
         if os.path.isfile("checkpoints.json"):                                            
-            with open('checkpoints.json') as f:                                      
+            with open(self.data_dir+'/checkpoints.json') as f:                                      
                 checkpoints = json.load(f)
         log_file = open(path+'/log_file.txt', 'w')
         checkpoint_filename = path+'/checkpoints_file.txt'
@@ -107,7 +107,7 @@ class DataDotWorldOD(SeleniumProducers):
                 sleep(60*5)
                 break
         
-        with open('checkpoint.json', 'w') as f: 
+        with open(self.data_dir+'/checkpoint.json', 'w') as f: 
             json.dump(checkpoints, f)
         log_file.close()
         checkpoint_file.close()
