@@ -3,7 +3,7 @@ import collections
 import urllib.request
 from urllib.parse import urlparse
 import spacy
-
+nlp = spacy.load('en') 
 
 ### DATETIME
 def date_flag(dateTime):                                                        
@@ -61,7 +61,7 @@ def flatten_dict(d, parent_key='', sep='__'):
 
 ### BASIC NLP
 def twitter_word_test(word):                                                    
-    skip_words = ['RT','#','amp']                                               
+    skip_words = ['RT','#','amp', '&amp']                                               
     skip_starts = ['#', '@']                                                    
     if word in skip_words:                                                      
         return False                                                            
@@ -70,7 +70,6 @@ def twitter_word_test(word):
     return True
 
 def get_nouns(tweet_text):                                                      
-    nlp = spacy.load('en')
     nouns = []                                                                  
     doc = nlp(tweet_text)                                                       
     for word in doc:                                                            
