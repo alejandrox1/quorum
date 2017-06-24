@@ -116,7 +116,6 @@ class DataDotWorldOD(SeleniumProducers):
         for dataset in datasets:
             if self.counter <= self.max_datasets or self.max_datasets<0:
                 self.driver.get(dataset) 
-                sleep(1) 
                 dataset_link, dataset_name = self._get_datasets()
                 self._save_datasets(path, dataset_link, dataset_name)
             else:
