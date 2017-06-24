@@ -1,4 +1,5 @@
 import os
+import json
 from time import sleep
 import requests
 import traceback
@@ -59,31 +60,29 @@ class DataDotWorldOD(SeleniumProducers):
 
 
     def parse_catalog(self, catalog):
-        main_page = catalog
         path = create_dir([self.url, catalog], self.data_dir)
-        self.counter, page_num = 0, 1
+        self.counter = 0
 
         # lgo and checkpoint files
+        checkpoints = {}
+        if os.path.isfile("checkpoints.json"):                                            
+            with open('checkpoints.json') as f:                                      
+                checkpoints = json.load(f)
+        main_page = checkpoints.get(str(catalog), catalog) 
         log_file = open(path+'/log_file.txt', 'w')
-        checkpoint_filename = path+'/checkpoints_file.txt'
-        checkpoint_file, checkpoints = self.restart_crawl(checkpoint_filename)
-        if checkpoints:
-            main_page = checkpoints[-1]
-            page_num += len(checkpoints)-1
 
         while self.counter <= self.max_datasets or self.max_datasets<0:
             try:
-                print('{}.\t{}'.format(page_num, main_page))
+                print('\t{}'.format(main_page))
         
                 self.driver.get(main_page)
                 self._parse_catalog(path)
                 
-                # go to next page                                                   
-                checkpoint_file.write('{}\n'.format(main_page))
+                # go to next page
+                checkpoints[str(catalog)] = str(self.driver.current_url)
                 self.driver.get(main_page)
                 sleep(2)
                 self.driver.find_element_by_xpath('//*[@aria-label="Next"]').click()   
-                page_num += 1
                 prev_page = main_page
                 main_page = self.driver.current_url
                 if main_page==prev_page:
@@ -104,7 +103,8 @@ class DataDotWorldOD(SeleniumProducers):
                 sleep(60*5)
                 break
 
-        checkpoint_file.close()
+        with open('checkpoint.json', 'w') as f: 
+            json.dump(last_id, f)
         log_file.close()
         return path
    
@@ -115,7 +115,8 @@ class DataDotWorldOD(SeleniumProducers):
         datasets = [self.url+x.attrs["href"] for x in datasets] 
         for dataset in datasets:
             if self.counter <= self.max_datasets or self.max_datasets<0:
-                self.driver.get(dataset) 
+                self.driver.get(dataset)
+                sleep(1)
                 dataset_link, dataset_name = self._get_datasets()
                 self._save_datasets(path, dataset_link, dataset_name)
             else:
