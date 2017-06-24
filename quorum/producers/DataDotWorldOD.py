@@ -68,12 +68,12 @@ class DataDotWorldOD(SeleniumProducers):
         if os.path.isfile("checkpoints.json"):                                            
             with open('checkpoints.json') as f:                                      
                 checkpoints = json.load(f)
-        main_page = checkpoints.get(str(catalog), catalog) 
         log_file = open(path+'/log_file.txt', 'w')
         checkpoint_filename = path+'/checkpoints_file.txt'
         checkpoint_file, checkpoint = self.restart_crawl(checkpoint_filename)
         if checkpoint:
             checkpoints[str(catalog)] = str(checkpoint[-1])
+        main_page = checkpoints.get(str(catalog), catalog)
 
         while self.counter <= self.max_datasets or self.max_datasets<0:
             try:
