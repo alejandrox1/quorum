@@ -83,7 +83,7 @@ class DataDotWorldOD(SeleniumProducers):
                 self._parse_catalog(path)
                 
                 # go to next page
-                checkpoints[str(catalog)] = str(self.driver.current_url)
+                checkpoints[str(catalog)] = str(main_page)
                 self.driver.get(main_page)
                 sleep(2)
                 self.driver.find_element_by_xpath('//*[@aria-label="Next"]').click()   
