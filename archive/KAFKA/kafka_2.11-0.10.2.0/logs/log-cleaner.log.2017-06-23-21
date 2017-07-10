@@ -1,0 +1,8 @@
+[2017-06-23 21:52:27,163] INFO Starting the log cleaner (kafka.log.LogCleaner)
+[2017-06-23 21:52:27,165] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)
+[2017-06-23 21:58:08,968] INFO The cleaning for partition mariotest-0 is aborted and paused (kafka.log.LogCleaner)
+[2017-06-23 21:58:08,969] INFO Compaction for partition mariotest-0 is resumed (kafka.log.LogCleaner)
+[2017-06-23 21:58:08,969] INFO The cleaning for partition mariotest-0 is aborted (kafka.log.LogCleaner)
+[2017-06-23 21:58:15,663] INFO The cleaning for partition test-0 is aborted and paused (kafka.log.LogCleaner)
+[2017-06-23 21:58:15,663] INFO Compaction for partition test-0 is resumed (kafka.log.LogCleaner)
+[2017-06-23 21:58:15,663] INFO The cleaning for partition test-0 is aborted (kafka.log.LogCleaner)

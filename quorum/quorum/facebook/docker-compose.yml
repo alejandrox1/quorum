@@ -1,0 +1,31 @@
+version: "3"
+networks:
+    kafka_kafkanet:
+        external: true
+    dbnet:
+
+services:
+    fbdb:  
+        image: postgres:10-alpine     
+        hostname: fbdb                                                            
+        container_name: fbdb             
+        environment:                                                            
+            POSTGRES_USER: user                                                
+            POSTGRES_PASSWORD: pass                                             
+            POSTGRES_DB: myfbdb                                             
+        volumes:                                                                
+            - ./data:/var/lib/postgresql/data 
+        networks:                                                               
+            - dbnet
+
+    fbapp:
+        build: .
+        hostname: fbapp
+        container_name: fbapp
+        volumes:
+            - .:/app
+        depends_on:
+            - fbdb
+        networks:
+            - dbnet
+            - kafka_kafkanet

@@ -10,7 +10,12 @@ __pycache__/
 *.log
 
 # credentials
-quorum/config/config.py
+quorum/config.py
+quorum/**/config.py
+
+# local tests
+quorum/**/test*
+quorum/**/mydatabase.db
 
 # libs
 venv
