@@ -1,0 +1,12 @@
+kafka:
+    build: .
+    volumes:
+        - .:/app
+    ports:
+        - 9091:9092
+    link:
+        - zookeeper
+
+zookeeper:
+    image: zookeeper
+

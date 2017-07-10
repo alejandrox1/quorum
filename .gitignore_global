@@ -9,6 +9,8 @@ __pycache__/
 # logs
 *.log
 
+# credentials
+quorum/config/config.py
 
 # libs
 venv
