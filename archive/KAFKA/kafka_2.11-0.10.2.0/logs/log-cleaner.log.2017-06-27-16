@@ -1,3 +1,0 @@
-[2017-06-27 16:03:47,052] INFO The cleaning for partition mariotest-0 is aborted and paused (kafka.log.LogCleaner)
-[2017-06-27 16:03:47,052] INFO Compaction for partition mariotest-0 is resumed (kafka.log.LogCleaner)
-[2017-06-27 16:03:47,052] INFO The cleaning for partition mariotest-0 is aborted (kafka.log.LogCleaner)
