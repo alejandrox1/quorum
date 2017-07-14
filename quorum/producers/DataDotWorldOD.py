@@ -152,18 +152,14 @@ class DataDotWorldOD(SeleniumProducers):
         for link in links:
             file_ext = (link.contents[0]).split('.')[-1]
             if file_ext.upper() in self.formats:
-                try:
-                    r = requests.get(link.attrs["href"], stream=True)
-                    filename = dataset_name + '.' + file_ext
-                    filename = safe_filename(filename)
-                    with open(path+'/'+filename, 'wb') as f:
-                        for chunk in r.iter_content(chunk_size=1024):
-                            if chunk:
-                                f.write(chunk)
-                    self.counter += 1
-                except Exception as e:
-                    print(e)
-                    continue
+                r = requests.get(link.attrs["href"], stream=True)
+                filename = dataset_name + '.' + file_ext
+                filename = safe_filename(filename)
+                with open(path+'/'+filename, 'wb') as f:
+                    for chunk in r.iter_content(chunk_size=1024):
+                        if chunk:
+                            f.write(chunk)
+                self.counter += 1
 
 
 
