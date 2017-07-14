@@ -18,6 +18,7 @@ quorum/**/test*
 quorum/**/mydatabase.db
 
 # libs
+playground
 venv
 data
 KAFKA/kafka_2.11-0.10.2.0
